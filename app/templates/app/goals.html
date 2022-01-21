@@ -1,0 +1,61 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+    Goals
+{% endblock %}
+
+{% block content %}
+
+<style type="text/css">
+    .content {
+        text-align: center;
+        border: 2px solid red;
+        border-radius: 50px;
+        padding: 50px;
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 100px;
+        background-color: rgb(240, 240, 240);
+    }
+    .check {
+        margin-right: 10px;
+    }
+    .list-item {
+        font-size: 20px;
+        padding-right: 30px;
+    }
+    .done-item {
+        font-size: 20px;
+    }
+</style>
+
+<div class="content">
+    <h1>My goals</h1>
+    <form method="post", action="/goals/">
+        {% csrf_token %}
+        <ul>
+        {% for item in goal_list %}
+        <p class="list-item"><input class="check", type="checkbox", value="clicked", name="c{{item.goalId}}">{{item.title}}</p>     
+        {% endfor %}
+        
+        </ul>
+        <div class="input-group mb-4">
+            <input type="text", name="newgoal", class="form-control", placeholder="New goal...", aria-label="New goal", aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-dark", type="submit", name="addgoal", value="addgoal">Add goal</button>
+            </div>
+        </div>
+
+        <button type="submit", class="btn btn-success", name="completegoals", value="completegoals", style="margin-top: 10px; margin-right: 20px;">Complete selected goals</button>
+        <button type="submit", class="btn btn-danger", name="deletegoals", value="deletegoals", style="margin-top: 10px; margin-left: 20px;">Delete selected goals</button>
+    </form>
+</div>
+
+<div class="content">
+    <h1>Completed goals</h1>
+    {% for item in done_list %}
+        <p class="done-item">{{item.title}}</p>
+    {% endfor %}
+</div>
+{% endblock%}

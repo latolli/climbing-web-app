@@ -1,0 +1,68 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+    Account
+{% endblock %}
+
+{% block content %}
+<style type="text/css">
+    .content {
+        padding:0 auto;
+        text-align: center;
+    }
+    .justbutton {
+        margin-bottom: 100px;
+    }
+    .btn {
+        font-size: 30px;
+        padding: 10px 50px;
+    }
+    .stats-title {
+        font-size: 28px;
+        font-weight: bold;
+    }
+    .title {
+        font-size: 32px;
+        font-weight: bold;
+    }
+    .stat {
+        font-size: 40px;
+        color: green;
+        font-weight: bold;
+    }
+    .stats-box {    
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: rgb(240, 240, 240);
+        padding: 50px;
+        border: 2px solid red;
+        border-radius: 50px;
+    }
+</style>
+
+<div class="content"> 
+    {% if user.is_authenticated %}
+    <div class="stats-box">
+        <h2 class="title", style="margin-bottom: 100px;">Account stats ({{user}})</h2>
+
+        <p class="stats-title">Total training sessions</p>
+        <p class="stat">{{total}}</p>
+        <p class="stats-title">Highest grade climbed</p>
+        <p class="stat">V{{highest}}</p>
+    </div>
+
+    <form class="justbutton", action="/logout", style="margin-top: 100px;">
+        <button type="submit", class="btn btn-danger", name="logoutbutton", value="logoutbutton">Logout</button>
+    </form>
+    {% else %}
+    <form class="justbutton", action="/login">
+        <button type="submit", class="btn btn-success", name="loginbutton", value="loginbutton">Login</button>
+    </form>
+    {% endif %}
+    
+    <form class="justbutton", action="/register">
+        <button type="submit", class="btn btn-dark", name="registerbutton", value="registerbutton">Register new account</button>
+    </form>
+</div>
+{% endblock%}

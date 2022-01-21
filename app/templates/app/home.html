@@ -1,0 +1,185 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<style type="text/css">
+  .graphs {
+    display: flex;
+  }
+
+  .data-chart {
+    flex: 1;
+    border: 2px solid red;
+    border-radius: 25px;
+    padding: 20px;
+    background-color: rgb(240, 240, 240);
+    min-height: 400px;
+
+  }
+
+  .data-chart:first-child {
+    margin-right: 40px;
+  }
+
+  .forms {
+    display: flex;
+    padding: 60px 20px;
+  }
+
+  .forms-child {
+    flex: 1;
+    border-radius: 25px;
+    padding: 20px;
+  }
+
+  .forms-child:first-child {
+    margin-right: 40px;  
+  }
+  .logged {
+    margin-bottom: 50px;
+    text-align: center;
+  }
+
+</style>
+
+{% if not user.is_authenticated %}
+<div class="logged">
+    <h2><a href="/login", style="color: red;">Login</a> to add data</h2>
+</div>
+{% endif %}
+
+<div class="graphs">
+  <div class="data-chart">
+      <canvas id="data-chart" data-url="{% url 'data-chart' %}"></canvas>
+    </div>
+
+  <div class="data-chart">
+    <canvas id="grade-chart" data-url="{% url 'grade-chart' %}"></canvas>
+  </div>
+</div>
+
+<div class="forms">
+  <div class="forms-child">
+    <h2>Add new training session</h2>
+    <form method="post" action="/">
+        {% csrf_token %}
+        {{training_form|crispy}}
+        <button type="submit" class="btn btn-success", name="newtraining", value="newtraining">Submit</button>
+    </form>
+  </div>
+
+  <div class="forms-child">
+    <h2>Add new climbed route</h2>
+    <form method="post" action="/">
+      {% csrf_token %}
+      {{climb_form|crispy}}
+      <button type="submit" class="btn btn-success", name="newclimb", value="newclimb">Submit</button>
+    </form>  
+  </div>
+</div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+  <script>
+
+    $(function () {
+
+      var $dataChart = $("#data-chart");
+      $.ajax({
+        url: $dataChart.data("url"),
+        success: function (data) {
+
+          var ctx = $dataChart[0].getContext("2d");
+
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: data.labels,
+              datasets: [{
+                label: 'Training sessions',
+                backgroundColor: 'red',
+                data: data.data
+              }]          
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    fontSize: 20,
+                    fontColor: "black",
+                    display: true,
+                    text: 'Training sessions per week'
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            suggestedMax: 5,
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+          });
+
+        }
+      });
+
+    });
+
+    $(function () {
+
+      var $gradeChart = $("#grade-chart");
+      $.ajax({
+        url: $gradeChart.data("url"),
+        success: function (data) {
+
+          var ctx = $gradeChart[0].getContext("2d");
+
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: data.labels,
+              datasets: [{
+                label: 'Highest grade',
+                backgroundColor: 'red',
+                data: data.data
+              }]          
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    fontSize: 20,
+                    fontColor: "black",
+                    display: true,
+                    text: 'Hardest climb each week (V grade)'
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            suggestedMax: 14,
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+          });
+
+        }
+      });
+
+    });
+
+  </script>
+
+{% endblock%}
