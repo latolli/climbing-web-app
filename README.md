@@ -1,7 +1,8 @@
 # Climbing web app
-This is a webapp for keeping track of your progression in climbing. It is made using Python 3.10, Django 4.0. It has three pages: Home, Goals and Account. Before you can 
-display any data in these pages you have to register an account and login. Home page has two graphs. One displays how many training sessions you have done in last five weeks.
-The other one is for hardest climbs you have done each week. There is also two forms so you can add more data to the database and it will display it in those charts. 
+This is a webapp for keeping track of your progression in climbing. It is made using Python 3.10, Django 4.0. It has three pages: Home, Goals and Account. All the data is 
+user specific so before you can display or add any data in these pages you have to register an account and login. Home page has two graphs. One displays how many training sessions
+you have done in last five weeks. The other one is for hardest climbs you have done each week. There is also two forms so you can add more data to the database and it will display
+it in those charts. 
 
 ![homepage](https://user-images.githubusercontent.com/55877751/150635464-b2f46633-cd2d-40f4-982c-b447dc7ccb5b.png)
 
