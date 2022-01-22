@@ -12,3 +12,5 @@ Goals page is for you personal goals. So there is list of completed goals and li
 Account page is very simple page where you can see some stats of your account. There is also buttons for registering new account, logout and login.
 
 ![accountpage](https://user-images.githubusercontent.com/55877751/150635532-4d2296a9-1ed3-4c7c-8569-b87c299cd678.png)
+
+Requirements: Python installed, django installed, django-crispy-forms installed.
